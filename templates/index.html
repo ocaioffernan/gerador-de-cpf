@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <title>Gerador de CPF</title>
+</head>
+<body class="custom-bg">
+    <div class="container mt-3">
+        <div class="row justify-content-center">
+            <h1 class="text-center"> Gerar CPF </h1>
+            <form method="post"> 
+                {{ form.hidden_tag() }}
+                <p class="form-group text-center">
+                    {{ form.sigla.label(class="form-label") }} {{ form.sigla(class="form-control-sm") }}
+                </p>
+                <p class="form-group text-center">
+                    {{ form.submit(class="btn btn-primary") }}
+                </p>
+            </form>
+        {% if cpf %}
+            <div class="alert alert-success text-center w-25 mt-1" role="alert">CPF GERADO COM SUCESSO!</div>
+            <div class="text-center mt-3 fs-4 fw-semibold"> CPF: {{ cpf }} </div>  
+        {% endif %}
+            <footer class="text-center py-3">
+                <div class="container">
+                    <p>site criado com fins estudantis</p>  
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>
