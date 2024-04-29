@@ -1,6 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 import random
-from forms import GerarCPF
+from forms import GerarCPF, ValidarCPF
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secretkey'
@@ -65,7 +65,48 @@ def index():
             else:
                 return 'Insira a Sigla Corretamente'
     
-    return render_template('index.html', form=form, cpf=cpf)
+    return render_template('index.html', form=form, cpf=cpf, p_atual ='gera')
+
+@app.route('/outra-rota', methods = [ 'GET', 'POST'])
+def outra_rota():
+    form = ValidarCPF()
+    cpf = None
+    mensagem = ''
+    cpf_gerado= None
+    cpf_final = None
+    if form.validate_on_submit():
+        cpf = form.cpf.data 
+        cpf = cpf.replace(".", "")
+        cpf = cpf.replace( "-","")
+        cpf_final = cpf
+        if not cpf_final.isdigit() or len(cpf_final) != 11:
+            mensagem = 'CPF digitado incorretamente'
+        else:
+            NoveD = cpf[:9]
+            cont1 = 10
+            resultado1 = resultado2 = 0
+            for digito in NoveD:
+                resultado1 += int(digito)*cont1
+                cont1 -= 1
+
+            PrDigito = (resultado1*10) % 11
+
+            PrDigito = PrDigito if PrDigito <= 9 else 0 
+
+            DezD = NoveD + str(PrDigito)
+            cont2 = 11
+
+            for digito in DezD:
+                resultado2 += int(digito)*cont2
+                cont2 -= 1
+                
+            SegDigito = (resultado2*10) % 11
+            SegDigito = SegDigito if SegDigito <= 9 else 0 
+
+            cpf_gerado = f'{NoveD}{PrDigito}{SegDigito}'
+            print(cpf_gerado)
+
+    return render_template('validandocpf.html', form=form, cpf_final=cpf_final, cpf_gerado= cpf_gerado, mensagem=mensagem, p_atual = 'valida') 
 
 if __name__ == '__main__':
     app.run(debug=True)

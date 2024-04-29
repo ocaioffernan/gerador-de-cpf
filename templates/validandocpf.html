@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+    <title>Validador de CPF</title>
+</head>
+<body class="custom-bg">
+    {% include 'navbar.html' %}
+    <div class="container mt-3">
+        <div class="row justify-content-center text-center">
+            <h1 class="text-center">Validar um CPF</h1>
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                {{ form.csrf_token }}
+                {{ form.cpf.label(class="form-label") }} {{ form.cpf() }}
+                {{ form.submit(class="btn btn-primary") }}
+            </form>
+            {% if form.validate_on_submit() and cpf_final.isdigit() and cpf_final | length == 11%}
+                {% if cpf_gerado == cpf_final %}
+                    <div class="alert alert-success text-center w-25 mt-1" role="alert">CPF VÁLIDO</div>
+                    {% elif cpf_gerado != cpf_final %}
+                        <div class="alert alert-danger text-center w-25 mt-1" role="alert">CPF INVÁLIDO</div>       
+                {% endif %}
+            {%endif%} 
+            {%if mensagem %}
+                    <div class="alert alert-warning text-center w-25 mt-1" role="alert"> {{mensagem}}</div>
+            {%endif%}
+            <footer class="text-center py-3">
+                <div class="container">
+                    <p>site criado com fins estudantis</p>  
+                </div>
+            </footer>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms import SelectField, SubmitField
-from wtforms.validators import InputRequired
+from wtforms import SelectField, SubmitField, StringField
+from wtforms.validators import InputRequired, DataRequired
 
 estados = {
     '1': ['DF', 'GO', 'MS', 'MT', 'TO'],
@@ -17,3 +17,7 @@ estados = {
 class GerarCPF(FlaskForm):
     sigla = SelectField('Estado', choices=[(estado, estado) for estado in sum(estados.values(), [])], validators=[InputRequired()])
     submit = SubmitField('Gerar')
+
+class ValidarCPF(FlaskForm):
+    cpf = StringField('CPF', validators= [DataRequired()])
+    submit = SubmitField('Validar')
