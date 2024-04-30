@@ -10,6 +10,4 @@
 
 # Visualize o projeto em:
 http://gerascpf.pythonanywhere.com/
-site desatualizado
-
 ![Static Badge](https://img.shields.io/badge/by%20caio-darkcyan?labelColor=%23)
